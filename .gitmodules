@@ -1,0 +1,3 @@
+[submodule "components/ESP32_I2C_Adafruit_STEMMA_Soil_Sensor"]
+	path = components/ESP32_I2C_Adafruit_STEMMA_Soil_Sensor
+	url = https://github.com/Krzyshio/ESP32_I2C_Adafruit_STEMMA_Soil_Sensor.git
