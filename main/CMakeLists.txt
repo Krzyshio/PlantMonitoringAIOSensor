@@ -1,2 +1,2 @@
-idf_component_register(SRCS "ESP32_Adafruit_STEMMA_Soil_Sensor_Example.cpp"
+idf_component_register(SRCS "PlantMonitoringSensorAio.cpp"
                        INCLUDE_DIRS "")

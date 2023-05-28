@@ -11,7 +11,7 @@
 #define I2C_SCL_PIN 22
 #define DELAY_TIME_BETWEEN_READINGS_MS 100
 
-static const char *TAG = "ADAFRUIT_STEMMA_I2C_SENSOR_EXAMPLE";
+static const char *TAG = "Plant Monitoring Sensor AIO";
 
 extern "C" void app_main(void)
 {
