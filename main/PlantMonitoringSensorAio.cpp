@@ -7,6 +7,7 @@
 #define I2C_MASTER_NUM 0
 #define I2C_SDA_PIN 21
 #define I2C_SCL_PIN 22
+#define DHT11_PIN GPIO_NUM_4
 #define SSD1306_DISPLAY_ADDRESS 0x3C
 #define SSD1306_DISPLAY_WIDTH 128
 #define SSD1306_DISPLAY_HEIGHT 64
@@ -45,11 +46,12 @@ extern "C" void app_main(void)
 
         ssd1306_clear_screen(&dev, false);
 
-        char buf[50];
+        char buf[100];
         sprintf(buf, "Moisture: %u", moisture_value);
-        ssd1306_display_text(&dev, 0, buf, strlen(buf), false);
-        sprintf(buf, "Temp: %.2f", temperature_value);
+        ssd1306_display_text(&dev, 0, "Soil Sensor", 11, true);
         ssd1306_display_text(&dev, 1, buf, strlen(buf), false);
+        sprintf(buf, "Temp: %.2f", temperature_value);
+        ssd1306_display_text(&dev, 2, buf, strlen(buf), false);
 
         vTaskDelay((DELAY_TIME_BETWEEN_READINGS_MS) / portTICK_PERIOD_MS);
     }
