@@ -3,14 +3,15 @@
 #include "esp_log.h"
 #include "Adafruit_Stemma_soil_sensor.h"
 #include "ssd1306.h"
+#include "sdkconfig.h"
 
-#define I2C_MASTER_NUM 0
-#define I2C_SDA_PIN 21
-#define I2C_SCL_PIN 22
-#define DHT11_PIN GPIO_NUM_4
-#define SSD1306_DISPLAY_ADDRESS 0x3C
-#define SSD1306_DISPLAY_WIDTH 128
-#define SSD1306_DISPLAY_HEIGHT 64
+#define I2C_MASTER_NUM   I2C_NUM_0
+#define I2C_SDA_PIN      CONFIG_PIN_SDA
+#define I2C_SCL_PIN      CONFIG_PIN_SCL
+#define DHT11_PIN        CONFIG_PIN_DHT11
+#define SSD1306_DISPLAY_ADDRESS    CONFIG_SSD1306_DISPLAY_ADDRESS
+#define SSD1306_DISPLAY_WIDTH      CONFIG_SSD1306_DISPLAY_WIDTH
+#define SSD1306_DISPLAY_HEIGHT     CONFIG_SSD1306_DISPLAY_HEIGHT
 #define DELAY_TIME_BETWEEN_READINGS_MS 1000
 
 static const char *TAG = "Plant Monitoring Sensor AIO";

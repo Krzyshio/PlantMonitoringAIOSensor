@@ -1,0 +1,40 @@
+menu "Custom Configuration"
+
+    config PIN_SDA
+        int "SDA Pin Number"
+        default 21
+        help
+            The pin number for the SDA line.
+    
+    config PIN_SCL
+        int "SCL Pin Number"
+        default 22
+        help
+            The pin number for the SCL line.
+    
+    config PIN_DHT11
+        int "DHT11 Pin Number"
+        default 4
+        help
+            The pin number for DHT11.
+    
+    config SSD1306_DISPLAY_ADDRESS
+        hex "SSD1306 Display Address"
+        default 0x3C
+        help
+            The I2C address for the SSD1306 display.
+    
+    config SSD1306_DISPLAY_WIDTH
+        int "SSD1306 Display Width"
+        default 128
+        help
+            The width of the SSD1306 display in pixels.
+    
+    config SSD1306_DISPLAY_HEIGHT
+        int "SSD1306 Display Height"
+        default 64
+        help
+            The height of the SSD1306 display in pixels.
+    
+    endmenu
+    
