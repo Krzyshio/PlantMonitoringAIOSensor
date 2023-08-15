@@ -16,9 +16,21 @@
 
 static const char *TAG = "Plant Monitoring Sensor AIO";
 
-extern "C" void app_main(void)
-{
-    int ret = ESP_OK;
+static void read_soil_sensor_values(uint16_t *moisture, float *temperature) {
+    int ret;
+
+    ret = adafruit_stemma_soil_sensor_read_moisture(I2C_MASTER_NUM, moisture);
+    if (ret == ESP_OK) {
+        ESP_LOGI(TAG, "Adafruit Stemma sensor moisture value: =%u", *moisture);
+    }
+
+    ret = adafruit_stemma_soil_sensor_read_temperature(I2C_MASTER_NUM, temperature);
+    if (ret == ESP_OK) {
+        ESP_LOGI(TAG, "Adafruit Stemma sensor temperature value: =%.2f", *temperature);
+    }
+}
+
+extern "C" void app_main(void) {
     uint16_t moisture_value = 0;
     float temperature_value = 0;
 
@@ -29,23 +41,8 @@ extern "C" void app_main(void)
     dev._address = SSD1306_DISPLAY_ADDRESS;
     ssd1306_init(&dev, SSD1306_DISPLAY_WIDTH, SSD1306_DISPLAY_HEIGHT);
 
-    while (1)
-    {
-        ret = adafruit_stemma_soil_sensor_read_moisture(I2C_MASTER_NUM, &moisture_value);
-
-        if (ret == ESP_OK)
-        {
-            ESP_LOGI(TAG, "Adafruit Stemma sensor value: =%u", moisture_value);
-        }
-
-        ret = adafruit_stemma_soil_sensor_read_temperature(I2C_MASTER_NUM, &temperature_value);
-
-        if (ret == ESP_OK)
-        {
-            ESP_LOGI(TAG, "Adafruit Stemma sensor value: =%.2f", temperature_value);
-        }
-
-        ssd1306_clear_screen(&dev, false);
+    while (1) {
+        read_soil_sensor_values(&moisture_value, &temperature_value);
 
         char buf[100];
         sprintf(buf, "Moisture: %u", moisture_value);
@@ -55,5 +52,7 @@ extern "C" void app_main(void)
         ssd1306_display_text(&dev, 2, buf, strlen(buf), false);
 
         vTaskDelay((DELAY_TIME_BETWEEN_READINGS_MS) / portTICK_PERIOD_MS);
+
+        ssd1306_clear_screen(&dev, false);
     }
 }
