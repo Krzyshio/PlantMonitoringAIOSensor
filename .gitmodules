@@ -4,6 +4,6 @@
 [submodule "components/ssd1306"]
 	path = components/ssd1306
 	url = https://github.com/Krzyshio/esp-idf-ssd1306
-[submodule "components/esp32-dht11"]
-	path = components/esp32-dht11
-	url = https://github.com/lcarnevale/esp32-dht11
+[submodule "components/DHT11-cpp"]
+	path = components/DHT11-cpp
+	url = https://github.com/csalotzky/esp32-DHT11.git
