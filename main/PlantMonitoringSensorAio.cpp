@@ -5,6 +5,8 @@
 #include "ssd1306.h"
 #include "dht11.h"
 #include "sdkconfig.h"
+#include "nvs_flash.h"
+#include "wifiManager.h"
 
 #define I2C_MASTER_NUM   I2C_NUM_0
 #define I2C_SDA_PIN      CONFIG_PIN_SDA
@@ -50,6 +52,9 @@ extern "C" void app_main(void) {
     float dht_temp = 0.0f;
     float dht_humidity = 0.0f;
 
+    nvs_flash_init();
+    wifi_connection();
+
     esp_log_level_set("*", ESP_LOG_INFO);
     ESP_ERROR_CHECK(adafruit_stemma_soil_sensor_init(I2C_MASTER_NUM, I2C_SDA_PIN, I2C_SCL_PIN));
 
@@ -57,7 +62,7 @@ extern "C" void app_main(void) {
     dev._address = SSD1306_DISPLAY_ADDRESS;
     ssd1306_init(&dev, SSD1306_DISPLAY_WIDTH, SSD1306_DISPLAY_HEIGHT);
 
-    DHT11_init((gpio_num_t)DHT11_PIN);
+    DHT11_init((gpio_num_t) DHT11_PIN);
 
     while (1) {
         read_soil_sensor_values(&moisture_value, &stemma_temp_value);

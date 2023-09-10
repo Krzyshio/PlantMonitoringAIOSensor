@@ -35,6 +35,18 @@ menu "Custom Configuration"
         default 64
         help
             The height of the SSD1306 display in pixels.
-    
+
+    config WIFI_SSID
+        string "WiFi SSID"
+        default "SSID"
+        help
+            SSID (name) of your Wi-Fi network.
+
+    config WIFI_PASSWORD
+        string "WiFi Password"
+        default "WiFi_Password"
+        help
+            Password for your Wi-Fi network.
+
     endmenu
     
