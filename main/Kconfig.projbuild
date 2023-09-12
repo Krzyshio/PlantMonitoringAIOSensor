@@ -48,5 +48,34 @@ menu "Custom Configuration"
         help
             Password for your Wi-Fi network.
 
+     config MQTT_HOSTNAME
+            string "MQTT Broker Hostname"
+            default "MQTT_Broker_Hostname"
+            help
+                Hostname of the MQTT broker.
+
+        config MQTT_PORT
+            int "MQTT Port"
+            default 1883
+            help
+                Port number for MQTT communication.
+
+        config MQTT_USERNAME
+            string "MQTT Username"
+            default "MQTT_Username"
+            help
+                Username for MQTT authentication.
+
+        config MQTT_PASSWORD
+            string "MQTT Password"
+            default "MQTT_Password"
+            help
+                Password for MQTT authentication.
+
+        config DEVICE_UUID
+            string "DEVICE UUID"
+            default ""
+            help
+                Device UUID from Dashboard Application
+
     endmenu
-    

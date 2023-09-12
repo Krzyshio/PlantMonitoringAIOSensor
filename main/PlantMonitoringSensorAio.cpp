@@ -1,4 +1,3 @@
-#include "string.h"
 #include "esp_system.h"
 #include "esp_log.h"
 #include "Adafruit_Stemma_soil_sensor.h"
@@ -7,6 +6,7 @@
 #include "sdkconfig.h"
 #include "nvs_flash.h"
 #include "wifiManager.h"
+#include "mqttManager.h"
 
 #define I2C_MASTER_NUM   I2C_NUM_0
 #define I2C_SDA_PIN      CONFIG_PIN_SDA
@@ -16,6 +16,7 @@
 #define SSD1306_DISPLAY_WIDTH      CONFIG_SSD1306_DISPLAY_WIDTH
 #define SSD1306_DISPLAY_HEIGHT     CONFIG_SSD1306_DISPLAY_HEIGHT
 #define DELAY_TIME_BETWEEN_READINGS_MS 1000
+#define DEVICE_UUID CONFIG_DEVICE_UUID
 
 static const char *TAG = "Plant Monitoring Sensor AIO";
 
@@ -51,6 +52,9 @@ extern "C" void app_main(void) {
     float stemma_temp_value = 0.0f;
     float dht_temp = 0.0f;
     float dht_humidity = 0.0f;
+    char payload[16];
+    char topic[64];
+    char buf[100];
 
     nvs_flash_init();
     wifi_connection();
@@ -64,12 +68,27 @@ extern "C" void app_main(void) {
 
     DHT11_init((gpio_num_t) DHT11_PIN);
 
+    vTaskDelay(2000 / portTICK_PERIOD_MS);
+    mqtt_app_start();
+
     while (1) {
         read_soil_sensor_values(&moisture_value, &stemma_temp_value);
         read_dht11_values(&dht_temp, &dht_humidity);
 
-        char buf[100];
-        ssd1306_display_text(&dev, 0, "Soil Sensor", 11, true);
+        sprintf(topic, "soil_moisture.%s", DEVICE_UUID);
+        sprintf(payload, "%u", moisture_value);
+        mqtt_publish(topic, payload);
+
+        sprintf(topic, "temperature.%s", DEVICE_UUID);
+        sprintf(payload, "%.2f", dht_temp);
+        mqtt_publish(topic, payload);
+
+        sprintf(topic, "humidity.%s", DEVICE_UUID);
+        sprintf(payload, "%.2f", dht_humidity);
+        mqtt_publish(topic, payload);
+
+        strcpy(buf, "Soil Sensor");
+        ssd1306_display_text(&dev, 0, buf, 11, true);
         sprintf(buf, "Moisture: %u", moisture_value);
         ssd1306_display_text(&dev, 1, buf, strlen(buf), false);
         sprintf(buf, "Temp: %.2f°C", stemma_temp_value);
